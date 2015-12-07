@@ -1,0 +1,27 @@
+__author__ = 'Ben.Goff'
+import requests
+import xml.etree.ElementTree as ET
+
+CraigsURL = 'http://maine.craigslist.org/search/sss?format=rss&srchType=T&sort=date&query='
+WhatYouLookinFor = 'NEST thermostat'
+
+r = requests.get(CraigsURL+WhatYouLookinFor)
+tree = ET.fromstring(r.text)
+results = {}
+
+for x, item in enumerate(tree):
+    if x > 0:
+        results[item[0].text.split(' &', 1)[0]] = item[1].text
+
+def push(item, item_url):
+    token = 'aBB4tUK74wKPyk5po6gx2ZRkoUg3ZJ'
+    user_key = 'KskmehPrjtgoEixcUlF3zspzNaPXU7'
+    message = item + item_url
+    post_data = 'token='+token+'&user='+user_key+'&message='+message
+    post_data = str.encode(post_data)
+    push_url = 'https://api.pushover.net/1/messages.json'
+    pushover = requests.post(push_url, data=post_data)
+    return pushover
+
+for i in results:
+    push(i, results[i])
