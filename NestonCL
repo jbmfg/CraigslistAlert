@@ -14,8 +14,8 @@ for x, item in enumerate(tree):
         results[item[0].text.split(' &', 1)[0]] = item[1].text
 
 def push(item, item_url):
-    token = 'aBB4tUK74wKPyk5po6gx2ZRkoUg3ZJ'
-    user_key = 'KskmehPrjtgoEixcUlF3zspzNaPXU7'
+    token = 'XXXXX'
+    user_key = 'XXXXX'
     message = item + item_url
     post_data = 'token='+token+'&user='+user_key+'&message='+message
     post_data = str.encode(post_data)
